@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Den Vortex | Social Media Link Fixer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --vortex-cyan: #00f2ff;
+            --vortex-purple: #9d00ff;
+            --bg-deep: #0a0b10;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(157, 0, 255, 0.05) 0%, transparent 40%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { width: 100%; max-width: 450px; }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .logo-vortex {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--vortex-cyan), var(--vortex-purple));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        .brand h1 { font-family: 'Oxanium', sans-serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .brand p { font-size: 0.7rem; color: #777; margin-top: -3px; }
+
+        /* The UI Cards */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .card h2 { font-family: 'Oxanium', sans-serif; font-size: 1.2rem; text-align: center; margin-bottom: 8px; }
+        .instruction { text-align: center; font-size: 0.8rem; color: #888; margin-bottom: 20px; }
+
+        .platform-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+
+        .btn-p {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 14px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+
+        .btn-p:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--vortex-cyan); }
+        .btn-p.active { background: #fff; color: #000; font-weight: 700; border: none; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+
+        .fixer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .status-tag { font-size: 0.65rem; background: #1a1a1a; padding: 4px 10px; border-radius: 5px; color: #555; letter-spacing: 1px; }
+        .status-tag.active { color: var(--vortex-cyan); background: rgba(0, 242, 255, 0.1); }
+
+        .input-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); }
+        .input-box label { font-size: 0.75rem; color: #666; display: block; margin-bottom: 8px; }
+
+        textarea {
+            width: 100%; background: transparent; border: none; color: white;
+            font-size: 0.9rem; resize: none; height: 50px; outline: none;
+        }
+
+        .btn-fix {
+            width: 100%; padding: 16px; margin-top: 15px; border-radius: 12px; border: none;
+            font-family: 'Oxanium', sans-serif; font-weight: 700; cursor: pointer;
+            background: #222; color: #444; transition: 0.3s;
+        }
+
+        .btn-fix.ready {
+            background: linear-gradient(90deg, var(--vortex-purple), var(--vortex-cyan));
+            color: white;
+            box-shadow: 0 0 15px rgba(157, 0, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        }
+
+        .result-panel { margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--glass-border); display: none; }
+        .copy-box {
+            display: flex; align-items: center; background: rgba(0,242,255,0.05);
+            padding: 12px; border-radius: 10px; border: 1px solid var(--vortex-cyan);
+        }
+        .copy-box input { background: transparent; border: none; color: var(--vortex-cyan); flex: 1; font-size: 0.8rem; outline: none; }
+        
+        .footer { text-align: center; font-size: 0.65rem; color: #444; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-vortex"><i class="fas fa-bolt"></i></div>
+        <div class="brand">
+            <h1>Den Vortex</h1>
+            <p>Gaming-Grade Link Purifier</p>
+        </div>
+    </header>
+
+    <div class="card">
+        <h2>Choose Platform</h2>
+        <p class="instruction">Clean trackers and shorten links for a cleaner look.</p>
+        <div class="platform-grid">
+            <button class="btn-p" onclick="initPlatform('Facebook', this)"><i class="fab fa-facebook-f"></i> Facebook</button>
+            <button class="btn-p" onclick="initPlatform('Instagram', this)"><i class="fab fa-instagram"></i> Instagram</button>
+            <button class="btn-p" onclick="initPlatform('TikTok', this)"><i class="fab fa-tiktok"></i> TikTok</button>
+            <button class="btn-p" onclick="initPlatform('YouTube', this)"><i class="fab fa-youtube"></i> YouTube</button>
+            <button class="btn-p" onclick="initPlatform('X / Twitter', this)"><i class="fab fa-x-twitter"></i> Twitter / X</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="fixer-header">
+            <h2 style="font-size: 1rem; margin:0;">Fix Link</h2>
+            <div id="statusTag" class="status-tag">SELECT PLATFORM</div>
+        </div>
+
+        <div class="input-box">
+            <label>Input original link</label>
+            <textarea id="urlInput" placeholder="Choose a platform above to unlock..." disabled></textarea>
+        </div>
+
+        <button id="fixBtn" class="btn-fix" onclick="vortexClean()" disabled>CLEAN & SHORTEN</button>
+
+        <div id="resPanel" class="result-panel">
+            <p style="font-size: 0.7rem; color: #888; margin-bottom: 5px;">Optimized Link:</p>
+            <div class="copy-box">
+                <input type="text" id="outputUrl" readonly>
+                <button onclick="copyToClip()" style="background:none; border:none; color:var(--vortex-cyan); cursor:pointer;"><i class="fas fa-copy"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer">© 2026 DEN VORTEX PHILIPPINES</p>
+</div>
+
+<script>
+    let activeMode = "";
+
+    function initPlatform(mode, el) {
+        activeMode = mode;
+        document.querySelectorAll('.btn-p').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+
+        document.getElementById('urlInput').disabled = false;
+        document.getElementById('urlInput').placeholder = `Paste ${mode} URL here...`;
+        
+        const fixBtn = document.getElementById('fixBtn');
+        fixBtn.disabled = false;
+        fixBtn.classList.add('ready');
+
+        const tag = document.getElementById('statusTag');
+        tag.innerText = mode.toUpperCase() + " ACTIVE";
+        tag.classList.add('active');
+    }
+
+    function vortexClean() {
+        let val = document.getElementById('urlInput').value.trim();
+        if(!val) return;
+
+        try {
+            let url = new URL(val);
+            let cleaned = "";
+
+            // Logic to clean and "shorten" by path extraction
+            if (val.includes("youtube.com/watch")) {
+                let v = url.searchParams.get("v");
+                cleaned = `https://youtu.be/${v}`;
+            } else if (val.includes("tiktok.com")) {
+                // Strips everything after the video ID
+                cleaned = val.split('?')[0];
+            } else if (val.includes("instagram.com")) {
+                // Strips trackers like igsh
+                cleaned = val.split('?')[0];
+            } else {
+                // Default: Strip all search parameters for a cleaner look
+                cleaned = url.origin + url.pathname;
+            }
+
+            document.getElementById('outputUrl').value = cleaned;
+            document.getElementById('resPanel').style.display = 'block';
+        } catch(e) {
+            alert("Vortex Error: Please provide a valid URL.");
+        }
+    }
+
+    function copyToClip() {
+        const input = document.getElementById('outputUrl');
+        input.select();
+        navigator.clipboard.writeText(input.value);
+        alert("Vortex Link Copied!");
+    }
+</script>
+
+</body>
+</html>
